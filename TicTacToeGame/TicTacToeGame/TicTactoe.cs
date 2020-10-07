@@ -44,5 +44,27 @@ namespace TICtacToeGame
             }
 
         }
-    }
+        public void usermove()
+        {
+            
+                Console.WriteLine("player want to choose position :" );
+            var choose = Convert.ToInt32(Console.ReadLine());
+            if(choose<0 || choose>9)
+            {
+                Console.WriteLine("Invalid Input");
+                usermove();
+            }
+            else if(board[choose]!=' ')
+            {
+                Console.WriteLine("location is not empty");
+                usermove();
+            }
+            else
+            {
+                board[choose] = player;
+                showboard();
+            }
+            
+        }
+    } 
 }

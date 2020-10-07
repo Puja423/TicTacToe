@@ -14,6 +14,7 @@ namespace TICtacToeGame
             tictactoeGames.player = tictactoeGames.ChooseOption();
             tictactoeGames.computer= tictactoeGames.player == 'X' ? 'O': 'X';
             tictactoeGames.showboard();
+            tictactoeGames.usermove();
 
         }
     }
