@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using Microsoft.VisualBasic;
 
 namespace TICtacToeGame
@@ -17,6 +18,20 @@ namespace TICtacToeGame
             board = new char[10];
             for (int i = 1; i < 10; i++)
                 board[i] = ' ';
+        }
+        public void Toss()
+        {
+            Console.Write("who will play first");
+            Random random = new Random();
+            int randomnum = random.Next(0, 1);
+
+            if (randomnum == 0)
+            {
+                Console.WriteLine("player will play first");
+
+            }
+            else
+                Console.WriteLine("Computer will play first");
         }
         public char ChooseOption()
         {
@@ -44,6 +59,7 @@ namespace TICtacToeGame
             }
 
         }
+        
         public void usermove()
         {
             
@@ -61,10 +77,20 @@ namespace TICtacToeGame
             }
             else
             {
+              
                 board[choose] = player;
                 showboard();
             }
             
         }
+        public bool CheckMove(int choose)
+        {
+            if (board[choose] == ' ')
+                return true;
+            else
+                return false;
+            
+        }
+       
     } 
 }
