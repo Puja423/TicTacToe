@@ -1,21 +1,30 @@
 ﻿using System;
+using TICtacToeGame;
 
-namespace TICtacToeGame
+namespace TicTacToe
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome To TicTacToe Game!");
-            Console.WriteLine("===============================");
-           
-            var tictactoeGames = new TicTactoe();
-            tictactoeGames.Initializeboard();
-            tictactoeGames.Toss();
-            tictactoeGames.player = tictactoeGames.ChooseOption();
-            tictactoeGames.computer= tictactoeGames.player == 'X' ? 'O': 'X';
-            tictactoeGames.showboard();
-            tictactoeGames.usermove();
+            Console.WriteLine("Welcome to TicTcToe Game");
+            Console.WriteLine("-------------------------");
+
+            TicTacToeGame ticTacToeGame = new TicTacToeGame();
+            ticTacToeGame.StartGame();
+            ticTacToeGame.UsersChoice();
+            ticTacToeGame.ShowBoard();
+            ticTacToeGame.TossToStartFirst();
+            if (ticTacToeGame.UserWonToss)
+            {
+                ticTacToeGame.UserMove();
+                ticTacToeGame.MakeMove();
+            }
+            else
+            {
+                ticTacToeGame.UserMove();
+                ticTacToeGame.MakeMove();
+            }
         }
     }
 }

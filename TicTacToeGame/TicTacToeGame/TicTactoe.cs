@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
@@ -7,90 +8,106 @@ using Microsoft.VisualBasic;
 
 namespace TICtacToeGame
 {
-    class TicTactoe
+    class TicTacToeGame
     {
-        public char[] board { get; set; }
-        public char player { get; set; }
-        public char computer { get; set; }
+        char[] _board;
+        char _userChoice;
+        char _systemChoice;
+        int currUserInput;
+        bool _userWonToss;
 
-        public void Initializeboard()
+        public TicTacToeGame()
         {
-            board = new char[10];
-            for (int i = 1; i < 10; i++)
-                board[i] = ' ';
+            _board = new char[10];
         }
-        public void Toss()
+
+        public char[] Board { get => _board; }
+        public char UserChoice { get => _userChoice; }
+        public char SystemChoice { get => _systemChoice; }
+        public bool UserWonToss { get => _userWonToss; }
+
+        public void StartGame()
         {
-            Console.Write("who will play first");
-            Random random = new Random();
-            int randomnum = random.Next(0, 1);
-
-            if (randomnum == 0)
+            for (int i = 1; i < 10; i++)
             {
-                Console.WriteLine("player will play first");
+                _board[i] = ' ';
+            }
+        }
 
+        public void UsersChoice()
+        {
+            Console.Write("Enter your choice to play further\n 'X' or 'O' ? ");
+            char ch = Convert.ToChar(Console.ReadLine());
+
+            if (ch == 'X' || ch == 'O')
+            {
+                _userChoice = ch;
+                if (ch == 'X')
+                    _systemChoice = 'O';
+                else
+                    _systemChoice = 'X';
             }
             else
-                Console.WriteLine("Computer will play first");
+            {
+                Console.WriteLine("Wrong Choice");
+                UsersChoice();
+            }
         }
-        public char ChooseOption()
-        {
-            Console.Write("Choose X or O: ");
-            var input = Convert.ToChar(Console.ReadLine());
-            return (input == 'X' || input == 'O') ? input : ChooseOption();
 
-        }
-        public void showboard()
+        public void ShowBoard()
         {
             for (int i = 1; i < 10; i++)
             {
-                if(i %3 ==0)
+                if (i % 3 == 0)
                 {
-                    Console.WriteLine("{0}\n" ,board[i]);
-                    if(i!=9)
-                        Console.WriteLine("---------------");
+                    Console.Write(_board[i]);
+                    Console.WriteLine("\n----------");
                 }
                 else
                 {
-                    Console.Write("{0} |"  ,board[i]);
-                        
-               
+                    Console.Write(_board[i] + " | ");
                 }
             }
+        }
 
-        }
-        
-        public void usermove()
+        public void UserMove()
         {
-            
-                Console.WriteLine("player want to choose position :" );
-            var choose = Convert.ToInt32(Console.ReadLine());
-            if(choose<0 || choose>9)
+            Console.WriteLine("Enter index (1-9) to mark your choice :");
+            int userMove = Convert.ToInt32(Console.ReadLine());
+            if (userMove > 0 && userMove < 10)
             {
-                Console.WriteLine("Invalid Input");
-                usermove();
-            }
-            else if(board[choose]!=' ')
-            {
-                Console.WriteLine("location is not empty");
-                usermove();
+                if (_board[userMove] == ' ')
+                    currUserInput = userMove;
+                else
+                {
+                    Console.WriteLine("The given Index isn't empty");
+                    UserMove();
+                }
             }
             else
             {
-              
-                board[choose] = player;
-                showboard();
+                Console.WriteLine("Index should be between 1 to 9");
+                UserMove();
             }
-            
         }
-        public bool CheckMove(int choose)
+
+        public void MakeMove()
         {
-            if (board[choose] == ' ')
-                return true;
-            else
-                return false;
-            
+            _board[currUserInput] = _userWonToss ? _userChoice : _systemChoice;
+            ShowBoard();
         }
-       
-    } 
+
+        public void TossToStartFirst()
+        {
+            Console.WriteLine("Choose Head / Tail to start first");
+            string userChoice = Console.ReadLine().ToLower();
+            string[] coin = new string[2] { "head", "tail" };
+            Random toss = new Random();
+            _userWonToss = (coin[toss.Next(0, 2)] == userChoice);
+            if (_userWonToss)
+                Console.WriteLine("You won the toss");
+            else
+                Console.WriteLine("You lose the toss");
+        }
+    }
 }
